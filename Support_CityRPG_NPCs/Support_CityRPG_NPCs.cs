@@ -6,6 +6,7 @@ exec($City::NPC::ScriptPath @ "npcSpawn.cs");
 
 package CityRPG_NPC
 {
+  // City functions
   function City_Tick()
   {
     Parent::City_Tick();
@@ -95,6 +96,7 @@ package CityRPG_NPC
     $City::Event::setNPCData["And"] = inputEvent_GetTargetIndex("fxDTSBrick",$City::Event::setNPCData,"And");
   }
 
+  // Base game functions
   function onMissionLoaded()
   {
     Parent::onMissionLoaded();
@@ -122,6 +124,47 @@ package CityRPG_NPC
 			%list = new SimSet("NPCProcessList_Tick"){};
 			MissionCleanup.add(%list);
 		}
+  }
+
+  // Server commands
+  function serverCmdClearEvents(%client)//Make some bricks uneditable by non-admins.
+  {
+    %brick = %client.wrenchbrick;
+    if(!isObject(%brick))
+      return Parent::serverCmdClearEvents(%client);
+    if(%brick.getDataBlock().CityRPGBrickEventsLocked)
+    {
+      if(!%client.isAdmin)
+      {
+        %client.centerPrint("\c6Only administrators may edit events on this brick.",5);
+        return 0;
+      }
+    }
+    %value = Parent::serverCmdClearEvents(%client);
+
+    //Do some event tracking work...
+    if(%brick.numEvents == 0)//Success check
+    {
+      %blid = %brick.getGroup().bl_id;//If a brick changes ownership, it will be in the wrong set.  But afaik you can't sell lots yet, so I can't fix that yet.
+      if(isObject(%set = CityRPGEventTracker.sellFood.event["Set",%blid]))
+      {
+        if(%set.isMember(%brick))
+          %set.remove(%brick);
+      }
+      if(isObject(%set = CityRPGEventTracker.sellItem.event["Set",%blid]))
+      {
+        if(%set.isMember(%brick))
+          %set.remove(%brick);
+      }
+      if(isObject(%brick.NPCAvatar))
+        %brick.NPCAvatar.delete();
+      if(NPCProcessList.isMember(%brick))
+        NPCProcessList.remove(%brick);
+      if(NPCProcessList_Tick.isMember(%brick))
+        NPCProcessList_Tick.remove(%brick);
+    }
+
+    return %value;
   }
 };
 
