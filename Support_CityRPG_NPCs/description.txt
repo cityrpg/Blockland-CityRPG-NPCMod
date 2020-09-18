@@ -1,0 +1,4 @@
+Title: NPC Mod for CityRPG 4
+Author: Dglider
+An expansion mod for CityRPG 4. Adds NPCs that pay rent and purchase goods, stimulating the in-game economy.
+Ported by the CityRPG 4 Team.
