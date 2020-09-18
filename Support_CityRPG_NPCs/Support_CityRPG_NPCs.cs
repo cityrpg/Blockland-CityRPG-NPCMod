@@ -126,6 +126,27 @@ package CityRPG_NPC
 		}
   }
 
+  //Make "events" greyed out on uneditable bricks.
+  function WrenchImage::onHitObject(%this, %player, %slot, %object, %pos, %normal)
+  {
+    if(!isObject(%object))
+      return Parent::onHitObject(%this, %player, %slot, %object, %pos, %normal);
+    if(%object.getClassName()!$="fxDTSBrick")
+      return Parent::onHitObject(%this, %player, %slot, %object, %pos, %normal);
+    if(%object.getDataBlock().CityRPGBrickEventsLocked)
+    {
+      %adminonly = $Server::WrenchEventsAdminOnly;
+      $Server::WrenchEventsAdminOnly = 1;
+      %value = Parent::onHitObject(%this, %player, %slot, %object, %pos, %normal);
+      $Server::WrenchEventsAdminOnly = %adminonly;
+    }
+    else
+    {
+      %value = Parent::onHitObject(%this, %player, %slot, %object, %pos, %normal);
+    }
+    return %value;
+  }
+
   // Server commands
   function serverCmdClearEvents(%client)//Make some bricks uneditable by non-admins.
   {
