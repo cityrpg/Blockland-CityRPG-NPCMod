@@ -45,7 +45,7 @@ package CityRPG_NPC
   function City_Init_AssembleEvents()
   {
     Parent::City_Init_AssembleEvents();
-    
+
     //Don't rely on doJobTest list.  That could be removed at some point.
     for(%b = 1; isObject(JobSO.job[%b]); %b++)
     {
@@ -93,6 +93,35 @@ package CityRPG_NPC
     $City::Event::NPCFinish = outputEvent_GetOutputEventIdx("NPCSpawn","Finish");
     $City::Event::setNPCData = inputEvent_getInputEventIDx("setNPCData");
     $City::Event::setNPCData["And"] = inputEvent_GetTargetIndex("fxDTSBrick",$City::Event::setNPCData,"And");
+  }
+
+  function onMissionLoaded()
+  {
+    Parent::onMissionLoaded();
+		if(!isObject(CityRPGEventTracker))
+		{
+			%tracker = new SimGroup("CityRPGEventTracker"){};
+			%tracker.sellFood = %groupa = new SimGroup(){};
+			%tracker.sellItem = %groupb = new SimGroup(){};
+			%tracker.add(%groupa, %groupb);
+			MissionCleanup.add(%tracker);
+		}
+
+		if(!isObject(NPCSpawnList))
+		{
+			%list = new SimSet("NPCSpawnList"){};
+			MissionCleanup.add(%list);
+		}
+		if(!isObject(NPCProcessList))
+		{
+			%list = new SimSet("NPCProcessList"){};
+			MissionCleanup.add(%list);
+		}
+		if(!isObject(NPCProcessList_Tick))
+		{
+			%list = new SimSet("NPCProcessList_Tick"){};
+			MissionCleanup.add(%list);
+		}
   }
 };
 
