@@ -4,6 +4,9 @@ $City::NPC::ScriptPath = "Add-Ons/Support_CityRPG_NPCs/";
 exec($City::NPC::ScriptPath @ "cityModules/npcs.cs");
 exec($City::NPC::ScriptPath @ "npcSpawn.cs");
 
+//NPC Prefs
+$Pref::Server::City::NPC::startPose = true;
+
 package CityRPG_NPC
 {
   // City functions
