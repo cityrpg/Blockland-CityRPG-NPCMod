@@ -3,7 +3,7 @@
 //Load avatar shape Data
 datablock staticShapeData(SSNPCAvatarData)
 {
-	shapefile = $City::DataPath @ "/shapes/NPC.dts";
+	shapefile = $City::NPC::DataPath @ "/shapes/NPC.dts";
 	head[0] = "NONE";
 	head[1] = "headSkin";
 
@@ -78,8 +78,8 @@ datablock staticShapeData(SSNPCAvatarData)
 	rski[0] = "NONE";
 	rski[1] = "RSki";
 };
-addExtraResource($City::DataPath @ "/shapes/decal.ifl");
-addExtraResource($City::DataPath @ "/shapes/face.ifl");
+addExtraResource($City::NPC::DataPath @ "/shapes/decal.ifl");
+addExtraResource($City::NPC::DataPath @ "/shapes/face.ifl");
 
 function serverCmdNPCatMe(%client, %val)//This is a temporary function to test avatars ingame.
 {
@@ -545,7 +545,7 @@ function City_NPCTickLoop(%loop)
 
 	//Process Money IN
 	%money = %npc.eventOutputParameter[2,1];
-	
+
 	if(isObject(JobSO.job[%npc.eventOutputParameter[1,1]+1]))
 	{
 		%pay = JobSO.job[%npc.eventOutputParameter[1,1]+1].pay;

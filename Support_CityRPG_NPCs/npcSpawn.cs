@@ -1,10 +1,10 @@
 datablock fxDTSBrickData(brickNPCSpawnData)
 {
-	brickFile = $City::DataPath @ "/bricks/NPCSpawn.blb";
+	brickFile = $City::NPC::DataPath @ "NPCSpawn.blb";
 	category = "CityRPG";
 	subCategory = "Spawns";
 	uiName = "NPC Spawn";
-	iconName = $City::DataPath @ "/ui/BrickIcons/NPCSpawn";
+	iconName = $City::NPC::DataPath @ "NPCSpawn";
 
 	CityRPGBrickAdmin = true;
 	CityRPGBrickEventsLocked = true;
