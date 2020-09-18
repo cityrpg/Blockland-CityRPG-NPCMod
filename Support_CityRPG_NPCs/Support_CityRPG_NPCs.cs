@@ -166,6 +166,83 @@ package CityRPG_NPC
 
     return %value;
   }
+
+  function serverCmdAddEvent(%client, %enabled, %inputEventIdx, %delay, %targetIdx, %NTNameIdx, %outputEventIdx, %par1, %par2, %par3, %par4)//Make some bricks uneditable by non-admins.
+  {
+    %brick = %client.wrenchbrick;
+    if(!isObject(%brick))
+      return Parent::serverCmdAddEvent(%client, %enabled, %inputEventIdx, %delay, %targetIdx, %NTNameIdx, %outputEventIdx, %par1, %par2, %par3, %par4);
+    if(%brick.getDataBlock().CityRPGBrickEventsLocked)
+    {
+      if(!%client.isAdmin&&!%client.isStaff)
+      {
+        return 0;
+      }
+    }
+
+    //Apply load offset to pose or rent positions if we are loading a file.
+    if(InputEvent_getTargetClass("fxDTSBrick",%inputEventIdx,%targetIdx) $= "NPCSpawn" && (%db = %brick.getDatablock()).getName() $= "brickNPCSpawnData")
+    {
+      if(%outputEventIDx == $City::Event::setPose)
+      {
+        if(isObject($Server_LoadFileObj))
+        {
+          if($LastLoadedBrick == %brick&&$Server_LoadFileObj.getClassName()$="FileObject")//The duplicator will fail this check, as the "fileobject" is actually set to a brick. ;d
+          {
+            %par2 = VectorAdd(getWords(%par2,0,2),$loadOffset) SPC getWords(%par2,3,6);
+          }
+        }
+      }
+      if(%outputEventIDx == $City::Event::setRent)
+      {
+        if(isObject($Server_LoadFileObj))
+        {
+          if($LastLoadedBrick == %brick&&$Server_LoadFileObj.getClassName()$="FileObject")//The duplicator will fail this check, as the "fileobject" is actually set to a brick. ;d
+          {
+            %par2 = VectorAdd(getWords(%par2,0,2),$loadOffset) SPC VectorAdd(getWords(%par2,3,5),$loadOffset) SPC getWord(%par2,6);
+          }
+        }
+      }
+      if(%outputEventIDx == $City::Event::NPCFinish)//Avatar creation not triggered when brick is created.  Consider adding Finish Event through script.
+      {
+        if(%brick.numEvents>=15)
+        {
+          %db.createAvatar(%brick);
+          NPCProcessList.add(%brick);
+        }
+      }
+    }
+
+    %value = Parent::serverCmdAddEvent(%client, %enabled, %inputEventIdx, %delay, %targetIdx, %NTNameIdx, %outputEventIdx, %par1, %par2, %par3, %par4);
+
+    //Some event tracking for NPCs  (They gotta know where to buy stuff)
+    %el = %brick.numEvents-1;
+    if(%brick.eventOutputIdx[%el] == $City::Event::sellFood&&InputEvent_getTargetClass("fxDTSBrick",%brick.eventInputIdx[%el],%brick.eventTargetIdx[%el]) $= "fxDTSBrick")
+    {
+      if(%par3<=26)//Ensure the price isn't too high >.<
+      {
+        %blid = %brick.getGroup().bl_id;
+        if(!isObject(%set = CityRPGEventTracker.sellFood.event["Set",%blid]))
+        {
+          CityRPGEventTracker.sellFood.event["Set",%blid] = %set = new SimSet(){};
+          CityRPGEventTracker.sellFood.add(%set);
+        }
+        %set.add(%brick);
+      }
+    }
+    if(%brick.eventOutputIdx[%el] == $City::Event::sellItem&&InputEvent_getTargetClass("fxDTSBrick",%brick.eventInputIdx[%el],%brick.eventTargetIdx[%el]) $= "fxDTSBrick")
+    {
+      %blid = %brick.getGroup().bl_id;
+      if(!isObject(%set = CityRPGEventTracker.sellItem.event["Set",%blid]))
+      {
+        CityRPGEventTracker.sellItem.event["Set",%blid] = %set = new SimSet(){};
+        CityRPGEventTracker.sellItem.add(%set);
+      }
+      %set.add(%brick);
+    }
+
+    return %value;
+  }
 };
 
 deactivatePackage(CityRPG_NPC);
