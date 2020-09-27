@@ -3,7 +3,7 @@
 //Load avatar shape Data
 datablock staticShapeData(SSNPCAvatarData)
 {
-	shapefile = $City::NPC::DataPath @ "/shapes/NPC.dts";
+	shapefile = $CityNPCs::DataPath @ "/shapes/NPC.dts";
 	head[0] = "NONE";
 	head[1] = "headSkin";
 
@@ -78,8 +78,8 @@ datablock staticShapeData(SSNPCAvatarData)
 	rski[0] = "NONE";
 	rski[1] = "RSki";
 };
-addExtraResource($City::NPC::DataPath @ "/shapes/decal.ifl");
-addExtraResource($City::NPC::DataPath @ "/shapes/face.ifl");
+addExtraResource($CityNPCs::DataPath @ "/shapes/decal.ifl");
+addExtraResource($CityNPCs::DataPath @ "/shapes/face.ifl");
 
 function serverCmdNPCatMe(%client, %val)//This is a temporary function to test avatars ingame.
 {

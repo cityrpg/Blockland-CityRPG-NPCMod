@@ -85,50 +85,50 @@ function NPCEditorGui::onWake(%this)//Initialize all the menus
    else
    {
       NPCEditorGui.NPCAvatarHasLoaded = 1;
-      NPCEditorGui_LoadAccentInfo("accent", $City::NPC::DataPath @ "shapes/accent.txt");
+      NPCEditorGui_LoadAccentInfo("accent", $CityNPCs::DataPath @ "shapes/accent.txt");
       %x = getWord(NPCAvatar_FacePreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_FacePreview.position, 1);
-      NPCEditorGui_CreatePartMenuFACE("NPCAvatar_FaceMenu", "NPCAvatar_SetFace", $City::NPC::DataPath @ "shapes/face.ifl", %x, %y);
+      NPCEditorGui_CreatePartMenuFACE("NPCAvatar_FaceMenu", "NPCAvatar_SetFace", $CityNPCs::DataPath @ "shapes/face.ifl", %x, %y);
       %x = getWord(NPCAvatar_DecalPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_DecalPreview.position, 1) - 64.0;
-      NPCEditorGui_CreatePartMenuFACE("NPCAvatar_DecalMenu", "NPCAvatar_SetDecal", $City::NPC::DataPath @ "shapes/decal.ifl", %x, %y);
+      NPCEditorGui_CreatePartMenuFACE("NPCAvatar_DecalMenu", "NPCAvatar_SetDecal", $CityNPCs::DataPath @ "shapes/decal.ifl", %x, %y);
       %x = getWord(NPCAvatar_PackPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_PackPreview.position, 1) - 64.0;
-      NPCEditorGui_CreatePartMenu("NPCAvatar_PackMenu", "NPCAvatar_SetPack", $City::NPC::DataPath @ "shapes/Pack.txt", %x, %y);
+      NPCEditorGui_CreatePartMenu("NPCAvatar_PackMenu", "NPCAvatar_SetPack", $CityNPCs::DataPath @ "shapes/Pack.txt", %x, %y);
       %x = getWord(NPCAvatar_SecondPackPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_SecondPackPreview.position, 1) - 64.0;
-      NPCEditorGui_CreatePartMenu("NPCAvatar_SecondPackMenu", "NPCAvatar_SetSecondPack", $City::NPC::DataPath @ "shapes/SecondPack.txt", %x, %y);
+      NPCEditorGui_CreatePartMenu("NPCAvatar_SecondPackMenu", "NPCAvatar_SetSecondPack", $CityNPCs::DataPath @ "shapes/SecondPack.txt", %x, %y);
       %x = getWord(NPCAvatar_HatPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_HatPreview.position, 1);
-      NPCEditorGui_CreatePartMenu("NPCAvatar_HatMenu", "NPCAvatar_SetHat", $City::NPC::DataPath @ "shapes/Hat.txt", %x, %y);
+      NPCEditorGui_CreatePartMenu("NPCAvatar_HatMenu", "NPCAvatar_SetHat", $CityNPCs::DataPath @ "shapes/Hat.txt", %x, %y);
       %x = getWord(NPCAvatar_AccentPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_AccentPreview.position, 1);
       NPCEditorGui_CreateSubPartMenu("NPCAvatar_AccentMenu", "NPCAvatar_SetAccent", $NPCaccentsAllowed[$NPChat[$Pref::NPCAvatar::Hat]], %x, %y);
       %x = getWord(NPCAvatar_ChestPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_ChestPreview.position, 1);
-      NPCEditorGui_CreatePartMenu("NPCAvatar_ChestMenu", "NPCAvatar_SetChest", $City::NPC::DataPath @ "shapes/Chest.txt", %x, %y);
+      NPCEditorGui_CreatePartMenu("NPCAvatar_ChestMenu", "NPCAvatar_SetChest", $CityNPCs::DataPath @ "shapes/Chest.txt", %x, %y);
       %x = getWord(NPCAvatar_HipPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_HipPreview.position, 1);
-      NPCEditorGui_CreatePartMenu("NPCAvatar_HipMenu", "NPCAvatar_SetHip", $City::NPC::DataPath @ "shapes/hip.txt", %x, %y);
+      NPCEditorGui_CreatePartMenu("NPCAvatar_HipMenu", "NPCAvatar_SetHip", $CityNPCs::DataPath @ "shapes/hip.txt", %x, %y);
       %x = getWord(NPCAvatar_RLegPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_RLegPreview.position, 1);
-      NPCEditorGui_CreatePartMenu("NPCAvatar_RLegMenu", "NPCAvatar_SetRLeg", $City::NPC::DataPath @ "shapes/RLeg.txt", %x, %y);
+      NPCEditorGui_CreatePartMenu("NPCAvatar_RLegMenu", "NPCAvatar_SetRLeg", $CityNPCs::DataPath @ "shapes/RLeg.txt", %x, %y);
       %x = getWord(NPCAvatar_LLegPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_LLegPreview.position, 1);
-      NPCEditorGui_CreatePartMenu("NPCAvatar_LLegMenu", "NPCAvatar_SetLLeg", $City::NPC::DataPath @ "shapes/LLeg.txt", %x, %y);
+      NPCEditorGui_CreatePartMenu("NPCAvatar_LLegMenu", "NPCAvatar_SetLLeg", $CityNPCs::DataPath @ "shapes/LLeg.txt", %x, %y);
       %x = getWord(NPCAvatar_RArmPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_RArmPreview.position, 1);
-      NPCEditorGui_CreatePartMenu("NPCAvatar_RArmMenu", "NPCAvatar_SetRArm", $City::NPC::DataPath @ "shapes/RArm.txt", %x, %y);
+      NPCEditorGui_CreatePartMenu("NPCAvatar_RArmMenu", "NPCAvatar_SetRArm", $CityNPCs::DataPath @ "shapes/RArm.txt", %x, %y);
       %x = getWord(NPCAvatar_LArmPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_LArmPreview.position, 1);
-      NPCEditorGui_CreatePartMenu("NPCAvatar_LArmMenu", "NPCAvatar_SetLArm", $City::NPC::DataPath @ "itor/shapes/LArm.txt", %x, %y);
+      NPCEditorGui_CreatePartMenu("NPCAvatar_LArmMenu", "NPCAvatar_SetLArm", $CityNPCs::DataPath @ "itor/shapes/LArm.txt", %x, %y);
       %x = getWord(NPCAvatar_RHandPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_RHandPreview.position, 1);
-      NPCEditorGui_CreatePartMenu("NPCAvatar_RHandMenu", "NPCAvatar_SetRHand", $City::NPC::DataPath @ "shapes/RHand.txt", %x, %y);
+      NPCEditorGui_CreatePartMenu("NPCAvatar_RHandMenu", "NPCAvatar_SetRHand", $CityNPCs::DataPath @ "shapes/RHand.txt", %x, %y);
       %x = getWord(NPCAvatar_LHandPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_LHandPreview.position, 1);
-      NPCEditorGui_CreatePartMenu("NPCAvatar_LHandMenu", "NPCAvatar_SetLHand", $City::NPC::DataPath @ "shapes/LHand.txt", %x, %y);
-      NPCAvatar_Preview.setObject("", $City::NPC::DataPath @ "shapes/NPC.dts", "", 100);//We changed over to our own .dts shape here.
+      NPCEditorGui_CreatePartMenu("NPCAvatar_LHandMenu", "NPCAvatar_SetLHand", $CityNPCs::DataPath @ "shapes/LHand.txt", %x, %y);
+      NPCAvatar_Preview.setObject("", $CityNPCs::DataPath @ "shapes/NPC.dts", "", 100);//We changed over to our own .dts shape here.
       NPCAvatar_Preview.setSequence("", 0, headup, 0);
       NPCAvatar_Preview.setThreadPos("", 0, 0);
       NPCAvatar_Preview.setCameraRot(0.3, 0.6, 2.52);
@@ -156,7 +156,7 @@ function NPCEditorGui::onWake(%this)//Initialize all the menus
    {
       //Set up our animation list for use in the poses subsection.
    	%fo = new FileObject();
-   	%fo.openForRead($City::NPC::DataPath @ "shapes/animations.txt");
+   	%fo.openForRead($CityNPCs::DataPath @ "shapes/animations.txt");
    	NPCData_Section.numAnimation = 0;
    	while(!%fo.isEOF())
    	{
@@ -331,7 +331,7 @@ function NPCEditorGui_CreatePartMenu(%name, %cmdString, %filename, %xPos, %yPos)
    %file = new FileObject(""){};
    %file.openForRead(%filename);
    %itemCount = 0;
-   %iconDir = $City::NPC::ClientPath @ "avatarIcons/" @ fileBase(%filename) @ "/";
+   %iconDir = $CityNPCs::ClientPath @ "avatarIcons/" @ fileBase(%filename) @ "/";
    %varString = "$NPC" @ fileBase(%filename);
    %line = %file.readLine();
    while(%line !$= "")
@@ -469,7 +469,7 @@ function NPCEditorGui_CreateSubPartMenu(%name, %cmdString, %subPartList, %xPos, 
    %newBox.wrap = 1;
    %newBox.resize(0, 0, 64, 64);
    %newBox.setName("NPCAvatar_" @ %baseName @ "MenuBG");
-   %iconDir = $City::NPC::ClientPath @ "avatarIcons/" @ %baseName @ "/";
+   %iconDir = $CityNPCs::ClientPath @ "avatarIcons/" @ %baseName @ "/";
    %itemCount = 0;
    %line = getWord(%subPartList, %itemCount);
    while(%line !$= "")
@@ -1087,7 +1087,7 @@ function NPCAvatar_UpdatePreview()
    NPCAvatar_SecondPackColor.setColor($Pref::NPCAvatar::SecondPackColor);
    NPCAvatar_SecondPackPreview.setColor($Pref::NPCAvatar::SecondPackColor);
    NPCAvatar_ColorAllIcons(NPCAvatar_SecondPackMenuBG, $Pref::NPCAvatar::SecondPackColor);
-   %iconDir = $City::NPC::ClientPath @ "avatarIcons/";
+   %iconDir = $CityNPCs::ClientPath @ "avatarIcons/";
    %thumb = filePath($NPCface[$Pref::NPCAvatar::FaceColor]) @ "/thumbs/" @ fileBase($NPCface[$Pref::NPCAvatar::FaceColor]);
    NPCAvatar_FacePreview.setBitmap(%thumb);
    %thumb = filePath($NPCdecal[$Pref::NPCAvatar::DecalColor]) @ "/thumbs/" @ fileBase($NPCdecal[$Pref::NPCAvatar::DecalColor]);
