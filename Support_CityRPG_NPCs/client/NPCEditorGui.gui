@@ -264,7 +264,7 @@ new GuiControl(NPCEditorGui) {
             enabled = 1;
             visible = 1;
             clipToParent = 1;
-            bitmap = "Add-Ons/Support_CityRPG_NPCMod/client/NPCSpawn";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/NPCSpawn";
             mColor = "255 255 255 255";
          };
          new GameTSCtrl(NPCBrick_Camera) {
@@ -518,7 +518,7 @@ new GuiControl(NPCEditorGui) {
             enabled = "1";
             visible = "1";
             clipToParent = "1";
-            bitmap = "Add-Ons/Support_CityRPG_NPCMod/client/avatarIcons/Hat/copHat";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/avatarIcons/Hat/copHat";
             wrap = "0";
             lockAspectRatio = "0";
             alignLeft = "0";
@@ -602,7 +602,7 @@ new GuiControl(NPCEditorGui) {
             enabled = "1";
             visible = "1";
             clipToParent = "1";
-            bitmap = "Add-Ons/Support_CityRPG_NPCMod/client/avatarIcons/Accent/none";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/avatarIcons/Accent/none";
             wrap = "0";
             lockAspectRatio = "0";
             alignLeft = "0";
@@ -710,7 +710,7 @@ new GuiControl(NPCEditorGui) {
             enabled = "1";
             visible = "1";
             clipToParent = "1";
-            bitmap = "Add-Ons/Support_CityRPG_NPCMod/client/avatarIcons/None";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/avatarIcons/None";
             wrap = "0";
             lockAspectRatio = "0";
             alignLeft = "0";
@@ -806,7 +806,7 @@ new GuiControl(NPCEditorGui) {
             enabled = "1";
             visible = "1";
             clipToParent = "1";
-            bitmap = "Add-Ons/Support_CityRPG_NPCMod/client/avatarIcons/SecondPack/epaulets";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/avatarIcons/SecondPack/epaulets";
             wrap = "0";
             lockAspectRatio = "0";
             alignLeft = "0";
@@ -956,7 +956,7 @@ new GuiControl(NPCEditorGui) {
             enabled = "1";
             visible = "1";
             clipToParent = "1";
-            bitmap = "Add-Ons/Support_CityRPG_NPCMod/client/avatarIcons/Chest/chest";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/avatarIcons/Chest/chest";
             wrap = "0";
             lockAspectRatio = "0";
             alignLeft = "0";
@@ -1052,7 +1052,7 @@ new GuiControl(NPCEditorGui) {
             enabled = "1";
             visible = "1";
             clipToParent = "1";
-            bitmap = "Add-Ons/Support_CityRPG_NPCMod/client/avatarIcons/RArm/RArm";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/avatarIcons/RArm/RArm";
             wrap = "0";
             lockAspectRatio = "0";
             alignLeft = "0";
@@ -1148,7 +1148,7 @@ new GuiControl(NPCEditorGui) {
             enabled = "1";
             visible = "1";
             clipToParent = "1";
-            bitmap = "Add-Ons/Support_CityRPG_NPCMod/client/avatarIcons/LArm/LArm";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/avatarIcons/LArm/LArm";
             wrap = "0";
             lockAspectRatio = "0";
             alignLeft = "0";
@@ -1301,7 +1301,7 @@ new GuiControl(NPCEditorGui) {
             enabled = "1";
             visible = "1";
             clipToParent = "1";
-            bitmap = "Add-Ons/Support_CityRPG_NPCMod/client/avatarIcons/RHand/RHand";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/avatarIcons/RHand/RHand";
             wrap = "0";
             lockAspectRatio = "0";
             alignLeft = "0";
@@ -1397,7 +1397,7 @@ new GuiControl(NPCEditorGui) {
             enabled = "1";
             visible = "1";
             clipToParent = "1";
-            bitmap = "Add-Ons/Support_CityRPG_NPCMod/client/avatarIcons/LHand/LHand";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/avatarIcons/LHand/LHand";
             wrap = "0";
             lockAspectRatio = "0";
             alignLeft = "0";
@@ -1493,7 +1493,7 @@ new GuiControl(NPCEditorGui) {
             enabled = "1";
             visible = "1";
             clipToParent = "1";
-            bitmap = "Add-Ons/Support_CityRPG_NPCMod/client/avatarIcons/hip/pants";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/avatarIcons/hip/pants";
             wrap = "0";
             lockAspectRatio = "0";
             alignLeft = "0";
@@ -1601,7 +1601,7 @@ new GuiControl(NPCEditorGui) {
             enabled = "1";
             visible = "1";
             clipToParent = "1";
-            bitmap = "Add-Ons/Support_CityRPG_NPCMod/client/avatarIcons/RLeg/RShoe";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/avatarIcons/RLeg/RShoe";
             wrap = "0";
             lockAspectRatio = "0";
             alignLeft = "0";
@@ -1747,7 +1747,7 @@ new GuiControl(NPCEditorGui) {
             enabled = "1";
             visible = "1";
             clipToParent = "1";
-            bitmap = "Add-Ons/Support_CityRPG_NPCMod/client/avatarIcons/LLeg/LShoe";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/avatarIcons/LLeg/LShoe";
             wrap = "0";
             lockAspectRatio = "0";
             alignLeft = "0";
