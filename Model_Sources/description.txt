@@ -1,0 +1,9 @@
+These are the model sources for
+	NPCSpawn.blb
+	NPC.dts
+
+These were created in Blender 2.78a
+.blb was exported using Demian Wright's Blender BLB Exporter version 2.0.0
+	https://github.com/DemianWright/io_scene_blb
+.dts was exported using Port's DTS Exporter version 0.2.0
+	https://github.com/qoh/io_scene_dts
