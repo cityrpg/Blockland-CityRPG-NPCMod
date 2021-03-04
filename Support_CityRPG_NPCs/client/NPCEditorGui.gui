@@ -264,7 +264,7 @@ new GuiControl(NPCEditorGui) {
             enabled = 1;
             visible = 1;
             clipToParent = 1;
-            bitmap = "Add-Ons/Support_CityRPG_NPCs/client/NPCSpawn";
+            bitmap = "Add-Ons/Support_CityRPG_NPCs/data/NPCSpawn";
             mColor = "255 255 255 255";
          };
          new GameTSCtrl(NPCBrick_Camera) {

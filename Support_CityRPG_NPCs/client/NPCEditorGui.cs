@@ -121,7 +121,7 @@ function NPCEditorGui::onWake(%this)//Initialize all the menus
       NPCEditorGui_CreatePartMenu("NPCAvatar_RArmMenu", "NPCAvatar_SetRArm", $CityNPCs::DataPath @ "shapes/RArm.txt", %x, %y);
       %x = getWord(NPCAvatar_LArmPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_LArmPreview.position, 1);
-      NPCEditorGui_CreatePartMenu("NPCAvatar_LArmMenu", "NPCAvatar_SetLArm", $CityNPCs::DataPath @ "itor/shapes/LArm.txt", %x, %y);
+      NPCEditorGui_CreatePartMenu("NPCAvatar_LArmMenu", "NPCAvatar_SetLArm", $CityNPCs::DataPath @ "shapes/LArm.txt", %x, %y);
       %x = getWord(NPCAvatar_RHandPreview.position, 0) + 64.0;
       %y = getWord(NPCAvatar_RHandPreview.position, 1);
       NPCEditorGui_CreatePartMenu("NPCAvatar_RHandMenu", "NPCAvatar_SetRHand", $CityNPCs::DataPath @ "shapes/RHand.txt", %x, %y);
