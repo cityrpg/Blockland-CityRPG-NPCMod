@@ -778,7 +778,10 @@ function City_NPCPoseLoop(%loop)
 		}
 	}
 
-	schedule(%time, %avg, "City_NPCPoseLoop", (%loop + 1));
+	if(isEventPending(CityRPGData.scheduleTickNPC))
+		cancel(CityRPGData.scheduleTickNPC);
+	
+	CityRPGData.scheduleTickNPC = schedule(%time, %avg, "City_NPCPoseLoop", (%loop + 1));
 }
 
 function City_DoAvatarPose(%avatar,%transform,%animation)
