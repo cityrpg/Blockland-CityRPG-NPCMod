@@ -1,5 +1,5 @@
-$CityNPCs::DataPath = "Add-Ons/Support_CityRPG_NPCs/data/";
-$City::NPC::ScriptPath = "Add-Ons/Support_CityRPG_NPCs/";
+$CityNPCs::DataPath = "Add-Ons/CityRPG4_NPCs/data/";
+$City::NPC::ScriptPath = "Add-Ons/CityRPG4_NPCs/";
 
 exec($City::NPC::ScriptPath @ "cityModules/npcs.cs");
 exec($City::NPC::ScriptPath @ "npcSpawn.cs");

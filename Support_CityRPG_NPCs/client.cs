@@ -1,6 +1,6 @@
-$CityNPCs::DataPath = "Add-Ons/Support_CityRPG_NPCs/data/";
-$CityNPCs::ScriptPath = "Add-Ons/Support_CityRPG_NPCs/";
-$CityNPCs::ClientPath = "Add-Ons/Support_CityRPG_NPCs/client/";
+$CityNPCs::DataPath = "Add-Ons/CityRPG4_NPCs/data/";
+$CityNPCs::ScriptPath = "Add-Ons/CityRPG4_NPCs/";
+$CityNPCs::ClientPath = "Add-Ons/CityRPG4_NPCs/client/";
 
 function ToggleNPCEditorGui(%val)
 {
