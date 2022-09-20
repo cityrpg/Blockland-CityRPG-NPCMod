@@ -309,8 +309,6 @@ function serverCmdRequestNPCData(%client,%brick)
 		%client.hasJobList = 1;
 	}
 
-	echo("-----SEND data for " @ %brick);
-	echo(%brick.eventOutputParameter[14,1] TAB %brick.eventOutputParameter[14,2]);
 	commandToClient(%client,'receiveNPCData',%brick,"NAME",%brick.eventOutputParameter[0,1]);
 	commandToClient(%client,'receiveNPCData',%brick,"JOB",%brick.eventOutputParameter[1,1]);
 	commandToClient(%client,'receiveNPCData',%brick,"MONEY",%brick.eventOutputParameter[2,1]);
