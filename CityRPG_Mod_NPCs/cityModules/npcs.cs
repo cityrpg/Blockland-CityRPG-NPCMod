@@ -295,18 +295,22 @@ function serverCmdRequestNPCData(%client,%brick)
 	%client.hasJobList = 0;
 	if(!%client.hasJobList)
 	{
-		for(%j = 1; isObject(JobSO.job[%j]); %j++)
+		for(%j = 1; %j <= JobSO.getJobCount()-1; %j++)
 		{
-			if(strlen(JobSO.job[%j].name) > 10)
-				%jobName = getSubStr(JobSO.job[%j].name, 0, 9) @ ".";
+			%jobObject = JobSO.job[getField(JobSO.jobsIndex, %j)];
+
+			if(strlen(jobObject.name) > 10)
+				%jobName = getSubStr(%jobObject.name, 0, 9) @ ".";
 			else
-				%jobName = JobSO.job[%j].name;
+				%jobName = %jobObject.name;
 
 			commandToClient(%client,'receiveNPCData',%brick,"JOBLIST",strreplace(%jobName, " ", "") TAB %j-1);
 		}
 		%client.hasJobList = 1;
 	}
 
+	echo("-----SEND data for " @ %brick);
+	echo(%brick.eventOutputParameter[14,1] TAB %brick.eventOutputParameter[14,2]);
 	commandToClient(%client,'receiveNPCData',%brick,"NAME",%brick.eventOutputParameter[0,1]);
 	commandToClient(%client,'receiveNPCData',%brick,"JOB",%brick.eventOutputParameter[1,1]);
 	commandToClient(%client,'receiveNPCData',%brick,"MONEY",%brick.eventOutputParameter[2,1]);

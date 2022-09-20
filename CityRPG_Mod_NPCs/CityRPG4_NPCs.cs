@@ -50,13 +50,14 @@ package CityRPG_NPC
   {
     Parent::City_Init_AssembleEvents();
 
-    //Don't rely on doJobTest list.  That could be removed at some point.
-    for(%b = 1; isObject(JobSO.job[%b]); %b++)
+    for(%b = 0; %b <= JobSO.getJobCount()-1; %b++)
     {
-      if(strlen(JobSO.job[%b].name) > 10)
-        %jobName = getSubStr(JobSO.job[%b].name, 0, 9) @ ".";
+      %jobObject = JobSO.job[getField(JobSO.jobsIndex, %b)];
+
+      if(strlen(%jobObject.name) > 10)
+        %jobName = getSubStr(%jobObject.name, 0, 9) @ ".";
       else
-        %jobName = JobSO.job[%b].name;
+        %jobName = %jobObject.name;
 
       %NPCJobList = %NPCJobList SPC strreplace(%jobName, " ", "") SPC %b-1;
     }
