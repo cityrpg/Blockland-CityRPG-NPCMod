@@ -62,9 +62,9 @@ package CityRPG_NPC
       %NPCJobList = %NPCJobList SPC strreplace(%jobName, " ", "") SPC %b-1;
     }
     $NPCItemList = "";
-    for(%c = 0; %c < $CityRPG::guns; %c++)
+    for(%c = 0; %c < $City::ItemCount; %c++)
     {
-      $NPCItemList = $NPCItemList SPC strreplace($CityRPG::prices::weapon::name[%c].uiName, " ", "") SPC %c+1;
+      $NPCItemList = $NPCItemList SPC strreplace($City::Item::name[%c].uiName, " ", "") SPC %c+1;
     }
     registerInputEvent(fxDTSBrick, setNPCData, "And NPCSpawn");
     registerOutputEvent(NPCSpawn, setNPCName, "string 200 200");

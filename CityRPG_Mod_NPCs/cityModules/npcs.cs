@@ -313,7 +313,7 @@ function serverCmdRequestNPCData(%client,%brick)
 	commandToClient(%client,'receiveNPCData',%brick,"JOB",%brick.eventOutputParameter[1,1]);
 	commandToClient(%client,'receiveNPCData',%brick,"MONEY",%brick.eventOutputParameter[2,1]);
 	commandToClient(%client,'receiveNPCData',%brick,"HUNGER",%brick.eventOutputParameter[3,1]);
-	commandToClient(%client,'receiveNPCData',%brick,"GREED",%brick.eventOutputParameter[4,1] TAB ((%brick.eventOutputParameter[4,2]>0)?strreplace($CityRPG::prices::weapon::name[%brick.eventOutputParameter[4,2]-1].uiName, " ", ""):"NONE") TAB %brick.eventOutputParameter[4,1] TAB %brick.eventOutputParameter[4,2] TAB %brick.eventOutputParameter[4,3] TAB %brick.eventOutputParameter[4,4]);
+	commandToClient(%client,'receiveNPCData',%brick,"GREED",%brick.eventOutputParameter[4,1] TAB ((%brick.eventOutputParameter[4,2]>0)?strreplace($City::Item::name[%brick.eventOutputParameter[4,2]-1].uiName, " ", ""):"NONE") TAB %brick.eventOutputParameter[4,1] TAB %brick.eventOutputParameter[4,2] TAB %brick.eventOutputParameter[4,3] TAB %brick.eventOutputParameter[4,4]);
 	commandToClient(%client,'receiveNPCData',%brick,"RENT",%brick.eventOutputParameter[5,1] TAB %brick.eventOutputParameter[5,2]);
 	commandToClient(%client,'receiveNPCData',%brick,"FEETN",%brick.eventOutputParameter[6,1] TAB %brick.eventOutputParameter[6,2] TAB %brick.eventOutputParameter[6,3] TAB %brick.eventOutputParameter[6,4]);
 	commandToClient(%client,'receiveNPCData',%brick,"BODYN",%brick.eventOutputParameter[7,1] TAB %brick.eventOutputParameter[7,2] TAB %brick.eventOutputParameter[7,3] TAB %brick.eventOutputParameter[7,4]);
@@ -355,7 +355,7 @@ function serverCmdRequestNPCDataRefresh(%client,%brick)
 
 	commandToClient(%client,'receiveNPCData',%brick,"MONEY",%brick.eventOutputParameter[2,1]);
 	commandToClient(%client,'receiveNPCData',%brick,"HUNGER",%brick.eventOutputParameter[3,1]);
-	commandToClient(%client,'receiveNPCData',%brick,"GREED",%brick.eventOutputParameter[4,1] TAB ((%brick.eventOutputParameter[4,2]>0)?strreplace($CityRPG::prices::weapon::name[%brick.eventOutputParameter[4,2]-1].uiName, " ", ""):"NONE") TAB %brick.eventOutputParameter[4,1] TAB %brick.eventOutputParameter[4,2] TAB %brick.eventOutputParameter[4,3] TAB %brick.eventOutputParameter[4,4]);
+	commandToClient(%client,'receiveNPCData',%brick,"GREED",%brick.eventOutputParameter[4,1] TAB ((%brick.eventOutputParameter[4,2]>0)?strreplace($City::Item::name[%brick.eventOutputParameter[4,2]-1].uiName, " ", ""):"NONE") TAB %brick.eventOutputParameter[4,1] TAB %brick.eventOutputParameter[4,2] TAB %brick.eventOutputParameter[4,3] TAB %brick.eventOutputParameter[4,4]);
 	commandToClient(%client,'receiveNPCData',%brick,"FINISH",3);
 }
 
@@ -687,7 +687,7 @@ function City_NPCTickLoop(%loop)
 					{
 						if(%npc.eventOutputParameter[4,2]-1 == (%itemListIDx = %itemBrick.eventOutputParameter[%eventNum,1]))
 						{
-							if(%npc.eventOutputParameter[4,1] == ((%itemPrice = $CityRPG::prices::weapon::price[%itemListIDx])+(%itemProfit = %itemBrick.eventOutputParameter[%eventNum,2])) && $CityRPG::prices::weapon::mineral[%itemListIDx] <= CitySO.minerals)
+							if(%npc.eventOutputParameter[4,1] == ((%itemPrice = $City::Item::price[%itemListIDx])+(%itemProfit = %itemBrick.eventOutputParameter[%eventNum,2])) && $City::Item::mineral[%itemListIDx] <= CitySO.minerals)
 							{
 								if(%npc.eventOutputParameter[5,1] + %itemPrice + %itemProfit <= %money)
 								{
@@ -695,7 +695,7 @@ function City_NPCTickLoop(%loop)
 									%money -= (%itemPrice + %itemProfit);
 									%npc.eventOutputParameter[2,1] = %money;
 
-									CitySO.minerals -= $CityRPG::prices::weapon::mineral[%itemListIDx];
+									CitySO.minerals -= $City::Item::mineral[%itemListIDx];
 
 									%armsDealerData.valueBank += %itemProfit;
 									%armsDealerBG.itemIncome += %itemProfit;
@@ -738,7 +738,7 @@ function City_NPCTickLoop(%loop)
 							{
 								%rerollItemIdx = %productBrick.eventOutputParameter[%i,1];
 								%rerollProfit = %productBrick.eventOutputParameter[%i,2];
-								%rerollPrice = $CityRPG::prices::weapon::price[%rerollItemIdx];
+								%rerollPrice = $City::Item::price[%rerollItemIdx];
 								break;
 							}
 						}
