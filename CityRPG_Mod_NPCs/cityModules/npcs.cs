@@ -299,6 +299,8 @@ function serverCmdRequestNPCData(%client,%brick)
 		{
 			%jobObject = JobSO.job[getField(JobSO.jobsIndex, %j)];
 
+			echo(%j SPC %jobObject SPC %jobObject.name);
+
 			if(strlen(jobObject.name) > 10)
 				%jobName = getSubStr(%jobObject.name, 0, 9) @ ".";
 			else
@@ -543,6 +545,8 @@ function City_NPCTickLoop(%loop)
 	if(!isObject(%npc = %list.getObject(%loop)))
 		return;
 
+	echo("Processing NPC " @ %NPC);
+
 	//NPCTempProcess(%npc);
 
 	//Process Money IN
@@ -594,20 +598,17 @@ function City_NPCTickLoop(%loop)
 				{
 					%sellerBG = %productBrick.getGroup();
 					%sellerID = %sellerBG.bl_id;
-					if(isObject(%sellerData = CityRPGData.getData(%sellerID)))
+					if(JobSO.job[City.get(%sellerID, "job")].sellFood)
 					{
-						if(JobSO.job[%sellerData.valueJobID].sellFood)
-						{
-							%sellerData.valueBank += %profit;
-							%sellerBG.foodIncome += %profit;
-							%sellerBG.foodNumPortions += %portion;
+						City.add(%sellerID, "bank", %profit);
+						%sellerBG.foodIncome += %profit;
+						%sellerBG.foodNumPortions += %portion;
 
-							%money -= %price;
-							%npc.eventOutputParameter[2,1] = %money;
+						%money -= %price;
+						%npc.eventOutputParameter[2,1] = %money;
 
-							%hunger += %portion;
-							%npc.eventOutputParameter[3,1] = %hunger;
-						}
+						%hunger += %portion;
+						%npc.eventOutputParameter[3,1] = %hunger;
 					}
 				}
 			}
@@ -639,34 +640,35 @@ function City_NPCTickLoop(%loop)
 				//Can this guy sell services?
 				%landLordBG = %rentBrick.getGroup();
 				%landLordID = %landLordBG.bl_id;
-				if(isObject(%landLordData = CityRPGData.getData(%landLordID)))
+				if(JobSO.job[City.get(%landLordID, "jobId")].sellServices)
 				{
-					if(JobSO.job[%landLordData.valueJobID].sellServices)
+					//Find event
+					%eventNum = getWord(%npc.eventOutputParameter[5,2],6);
+					%rentEventIDx = outputEvent_GetOutputEventIDx("fxDTSBrick","requestFunds");
+					if(%rentBrick.eventOutputIDx[%eventNum]==%rentEventIDx && InputEvent_getTargetClass("fxDTSBrick",%rentBrick.eventInputIdx[%eventNum],%rentBrick.eventTargetIdx[%eventNum]) $= "fxDTSBrick")
 					{
-						//Find event
-						%eventNum = getWord(%npc.eventOutputParameter[5,2],6);
-						%rentEventIDx = outputEvent_GetOutputEventIDx("fxDTSBrick","requestFunds");
-						if(%rentBrick.eventOutputIDx[%eventNum]==%rentEventIDx && InputEvent_getTargetClass("fxDTSBrick",%rentBrick.eventInputIdx[%eventNum],%rentBrick.eventTargetIdx[%eventNum]) $= "fxDTSBrick")
-						{
-							//Check Price
-							echo("Found rent for "@%so.nameOfMonth[%so.getMonth()]@" of $"@%rentBrick.eventOutputParameter[%eventNum,2]);
+						//Check Price
+						echo("Found rent for "@%so.nameOfMonth[%so.getMonth()]@" of $"@%rentBrick.eventOutputParameter[%eventNum,2]);
 
-							%budget = %npc.eventOutputParameter[5,1];
-							if((%rentPrice = %rentBrick.eventOutputParameter[%eventNum,2])>%budget)
-								%rentPrice = %budget;
-							if(%rentPrice > %money)
-								%rentPrice = %money;
+						%budget = %npc.eventOutputParameter[5,1];
+						if((%rentPrice = %rentBrick.eventOutputParameter[%eventNum,2])>%budget)
+							%rentPrice = %budget;
+						if(%rentPrice > %money)
+							%rentPrice = %money;
 
-							%money -= %rentPrice;
-							%npc.eventOutputParameter[2,1] = %money;
+						%money -= %rentPrice;
+						%npc.eventOutputParameter[2,1] = %money;
 
-							%landLordData.valueBank += %rentPrice;
-							%landLordBG.rentIncome += %rentPrice;
-							%landLordBG.rentNumPayments += 1;
-						}
+						City.add(%landLordID, "bank", %rentPrice);
+						%landLordBG.rentIncome += %rentPrice;
+						%landLordBG.rentNumPayments += 1;
 					}
 				}
 			}
+		}
+		else
+		{
+			error("CityRPG_Mod_NPCs - Incorrect word count for event param! Skipping NPC handling...");
 		}
 	}
 
@@ -678,33 +680,30 @@ function City_NPCTickLoop(%loop)
 		{
 			%armsDealerBG = %itemBrick.getGroup();
 			%armsDealerID = %armsDealerBG.bl_id;
-			if(isObject(%armsDealerData = CityRPGData.getData(%armsDealerID)))
+			if(JobSO.job[City.get(%armsDealerID, "jobId")].sellItems)
 			{
-				if(JobSO.job[%armsDealerData.valueJobID].sellItems)
+				%eventNum = %npc.eventOutputParameter[4,4];
+				if(%itemBrick.eventOutputIdx[%eventNum] == $City::Event::sellItem && InputEvent_getTargetClass("fxDTSBrick",%itemBrick.eventInputIdx[%eventNum],%itemBrick.eventTargetIdx[%eventNum]) $= "fxDTSBrick")
 				{
-					%eventNum = %npc.eventOutputParameter[4,4];
-					if(%itemBrick.eventOutputIdx[%eventNum] == $City::Event::sellItem && InputEvent_getTargetClass("fxDTSBrick",%itemBrick.eventInputIdx[%eventNum],%itemBrick.eventTargetIdx[%eventNum]) $= "fxDTSBrick")
+					if(%npc.eventOutputParameter[4,2]-1 == (%itemListIDx = %itemBrick.eventOutputParameter[%eventNum,1]))
 					{
-						if(%npc.eventOutputParameter[4,2]-1 == (%itemListIDx = %itemBrick.eventOutputParameter[%eventNum,1]))
+						if(%npc.eventOutputParameter[4,1] == ((%itemPrice = $City::Item::price[%itemListIDx])+(%itemProfit = %itemBrick.eventOutputParameter[%eventNum,2])) && $City::Item::mineral[%itemListIDx] <= CitySO.minerals)
 						{
-							if(%npc.eventOutputParameter[4,1] == ((%itemPrice = $City::Item::price[%itemListIDx])+(%itemProfit = %itemBrick.eventOutputParameter[%eventNum,2])) && $City::Item::mineral[%itemListIDx] <= CitySO.minerals)
+							if(%npc.eventOutputParameter[5,1] + %itemPrice + %itemProfit <= %money)
 							{
-								if(%npc.eventOutputParameter[5,1] + %itemPrice + %itemProfit <= %money)
-								{
 
-									%money -= (%itemPrice + %itemProfit);
-									%npc.eventOutputParameter[2,1] = %money;
+								%money -= (%itemPrice + %itemProfit);
+								%npc.eventOutputParameter[2,1] = %money;
 
-									CitySO.minerals -= $City::Item::mineral[%itemListIDx];
+								CitySO.minerals -= $City::Item::mineral[%itemListIDx];
 
-									%armsDealerData.valueBank += %itemProfit;
-									%armsDealerBG.itemIncome += %itemProfit;
-									%armsDealerBG.itemNumSales += 1;
-								}
-								else
-								{
-									%rerollGreed = false;
-								}
+								CitySO.add(%armsDealerID, "bank", %itemProfit);
+								%armsDealerBG.itemIncome += %itemProfit;
+								%armsDealerBG.itemNumSales += 1;
+							}
+							else
+							{
+								%rerollGreed = false;
 							}
 						}
 					}
@@ -726,10 +725,10 @@ function City_NPCTickLoop(%loop)
 			if(%productCount>0)
 			{
 				%productBrick = %shop.getObject(getRandom(0,%productCount-1));
-				%productBrickData = CityRPGData.getData(%productBrick.getGroup().bl_id);
+				%blid = %productBrick.getGroup().bl_id;
 				if(isObject(%productBrickData))
 				{
-					if(JobSO.job[%productBrickData.valueJobID].sellItems)
+					if(JobSO.job[City.get(%blid)].sellItems)
 					{
 						//Find the product
 						for(%i=0;%i<%productBrick.numEvents;%i++)
