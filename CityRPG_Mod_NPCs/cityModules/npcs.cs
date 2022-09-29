@@ -295,18 +295,16 @@ function serverCmdRequestNPCData(%client,%brick)
 	%client.hasJobList = 0;
 	if(!%client.hasJobList)
 	{
-		for(%j = 1; %j <= JobSO.getJobCount()-1; %j++)
+		for(%j = 0; %j <= JobSO.getJobCount()-1; %j++)
 		{
 			%jobObject = JobSO.job[getField(JobSO.jobsIndex, %j)];
-
-			echo(%j SPC %jobObject SPC %jobObject.name);
 
 			if(strlen(jobObject.name) > 10)
 				%jobName = getSubStr(%jobObject.name, 0, 9) @ ".";
 			else
 				%jobName = %jobObject.name;
 
-			commandToClient(%client,'receiveNPCData',%brick,"JOBLIST",strreplace(%jobName, " ", "") TAB %j-1);
+			commandToClient(%client,'receiveNPCData',%brick,"JOBLIST",strreplace(%jobName, " ", "") TAB %j);
 		}
 		%client.hasJobList = 1;
 	}
@@ -545,21 +543,32 @@ function City_NPCTickLoop(%loop)
 	if(!isObject(%npc = %list.getObject(%loop)))
 		return;
 
-	echo("Processing NPC " @ %NPC);
+	npcDebug("Processing NPC", %NPC);
 
 	//NPCTempProcess(%npc);
 
 	//Process Money IN
 	%money = %npc.eventOutputParameter[2,1];
 
-	if(isObject(JobSO.job[%npc.eventOutputParameter[1,1]+1]))
+	// Get NPC job info
+	%jobParam = %npc.eventOutputParameter[1,1];
+	%jobID = getField(JobSO.jobsIndex, %jobParam);
+	%job = JobSO.job[%jobID];
+
+	if(isObject(%job))
 	{
-		%pay = JobSO.job[%npc.eventOutputParameter[1,1]+1].pay;
+		npcDebug("Processing NPC pay", %NPC);
+		%pay = %job.pay;
 		%ecoMod = $Economics::Condition/100;
 		%sum = mFloor((%pay * %ecoMod) + %pay);
 
 		%money += %sum;
 		%npc.eventOutputParameter[2,1] = %money;
+	}
+	else
+	{
+		// Error to notify that this poor NPC is going to starve
+		error("CityRPG_Mod_NPCs - NPC '" @ %NPC @ "' has un-resolvable job from param '" @ %jobParam @ "'. Some handling for this NPC will be skipped.");
 	}
 
 	//Process hunger DOWN
@@ -572,6 +581,7 @@ function City_NPCTickLoop(%loop)
 	//Buy food?
 	if(%hunger<5)
 	{
+		npcDebug("Looking for food", %npc);
 		//Pick a shop
 		%count = CityRPGEventTracker.sellFood.getCount();
 		if(%count>0)
@@ -598,7 +608,7 @@ function City_NPCTickLoop(%loop)
 				{
 					%sellerBG = %productBrick.getGroup();
 					%sellerID = %sellerBG.bl_id;
-					if(JobSO.job[City.get(%sellerID, "job")].sellFood)
+					if(JobSO.job[City.get(%sellerID, "jobId")].sellFood)
 					{
 						City.add(%sellerID, "bank", %profit);
 						%sellerBG.foodIncome += %profit;
@@ -610,8 +620,24 @@ function City_NPCTickLoop(%loop)
 						%hunger += %portion;
 						%npc.eventOutputParameter[3,1] = %hunger;
 					}
+					else
+					{
+						npcDebug("Could not buy food, no license");
+					}
+				}
+				else
+				{
+					npcDebug("Could not buy food, ripoff");
 				}
 			}
+			else
+			{
+				npcDebug("Could not buy food, no sellFood events in tracker");
+			}
+		}
+		else
+		{
+			npcDebug("Could not buy food, no events in tracker", %npc);
 		}
 	}
 
@@ -741,7 +767,7 @@ function City_NPCTickLoop(%loop)
 								break;
 							}
 						}
-						if((%rerollPrice + %rerollProfit) <= (JobSO.job[%npc.eventOutputParameter[1,1]+1].pay * 20))
+						if((%rerollPrice + %rerollProfit) <= (%job.pay * 20))
 						{
 							%npc.eventOutputParameter[4,1] = (%rerollPrice + %rerollProfit);
 							%npc.eventOutputParameter[4,2] = %rerollItemIdx+1;

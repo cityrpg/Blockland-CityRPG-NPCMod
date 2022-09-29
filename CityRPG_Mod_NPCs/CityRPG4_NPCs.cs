@@ -6,6 +6,22 @@ exec($City::NPC::ScriptPath @ "npcSpawn.cs");
 
 //NPC Prefs
 $Pref::Server::City::NPC::startPose = true;
+$Pref::Server::City::NPC::debug = true;
+
+function npcDebug(%str, %id)
+{
+  if($Pref::Server::City::NPC::debug)
+  {
+    if(%id !$= "")
+    {
+      echo("NPC Mod [" @ %id @ "]: " @ %str);
+    }
+    else
+    {
+      echo("NPC Mod: " @ %str);
+    }
+  }
+}
 
 package CityRPG_NPC
 {
@@ -50,6 +66,9 @@ package CityRPG_NPC
   {
     Parent::City_Init_AssembleEvents();
 
+    $NPCItemList = "";
+    $NPCJobList = "";
+
     for(%b = 0; %b <= JobSO.getJobCount()-1; %b++)
     {
       %jobObject = JobSO.job[getField(JobSO.jobsIndex, %b)];
@@ -59,16 +78,18 @@ package CityRPG_NPC
       else
         %jobName = %jobObject.name;
 
-      %NPCJobList = %NPCJobList SPC strreplace(%jobName, " ", "") SPC %b-1;
+      %newKey = strreplace(%jobName, " ", "") SPC %b;
+
+      // This is fine with an empty space as the first 'key' because we omit the spacing below.
+      $NPCJobList = $NPCJobList SPC %newKey;
     }
-    $NPCItemList = "";
     for(%c = 0; %c < $City::ItemCount; %c++)
     {
       $NPCItemList = $NPCItemList SPC strreplace($City::Item::name[%c].uiName, " ", "") SPC %c+1;
     }
     registerInputEvent(fxDTSBrick, setNPCData, "And NPCSpawn");
     registerOutputEvent(NPCSpawn, setNPCName, "string 200 200");
-    registerOutputEvent(NPCSpawn, setJob, "list" @ %NPCJobList);
+    registerOutputEvent(NPCSpawn, setJob, "list" @ $NPCJobList);
     registerOutputEvent(NPCSpawn, setMoney, "string 200 50");//String because we don't want to cap NPC money.
     registerOutputEvent(NPCSpawn, setHunger, "int 0 " @ $CityRPG::food::stateCount @" 6");
     registerOutputEvent(NPCSpawn, setGreed, "string 200 50" TAB "list NONE 0" @ $NPCItemList TAB "string 200 50" TAB "int 0 200 0");//[price (not capped)], [item], [selling brick OBJECT ID], [selling brick EVENT NUM]
@@ -98,6 +119,8 @@ package CityRPG_NPC
     $City::Event::NPCFinish = outputEvent_GetOutputEventIdx("NPCSpawn","Finish");
     $City::Event::setNPCData = inputEvent_getInputEventIDx("setNPCData");
     $City::Event::setNPCData["And"] = inputEvent_GetTargetIndex("fxDTSBrick",$City::Event::setNPCData,"And");
+
+    npcDebug("Assembled events.");
   }
 
   // Base game functions
