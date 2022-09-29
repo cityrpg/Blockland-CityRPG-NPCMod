@@ -663,32 +663,29 @@ function City_NPCTickLoop(%loop)
 			%rentBrick = getWord(%cast,0);
 			if(isObject(%rentBrick))
 			{
-				//Can this guy sell services?
 				%landLordBG = %rentBrick.getGroup();
 				%landLordID = %landLordBG.bl_id;
-				if(JobSO.job[City.get(%landLordID, "jobId")].sellServices)
+
+				//Find event
+				%eventNum = getWord(%npc.eventOutputParameter[5,2],6);
+				%rentEventIDx = outputEvent_GetOutputEventIDx("fxDTSBrick","requestFunds");
+				if(%rentBrick.eventOutputIDx[%eventNum]==%rentEventIDx && InputEvent_getTargetClass("fxDTSBrick",%rentBrick.eventInputIdx[%eventNum],%rentBrick.eventTargetIdx[%eventNum]) $= "fxDTSBrick")
 				{
-					//Find event
-					%eventNum = getWord(%npc.eventOutputParameter[5,2],6);
-					%rentEventIDx = outputEvent_GetOutputEventIDx("fxDTSBrick","requestFunds");
-					if(%rentBrick.eventOutputIDx[%eventNum]==%rentEventIDx && InputEvent_getTargetClass("fxDTSBrick",%rentBrick.eventInputIdx[%eventNum],%rentBrick.eventTargetIdx[%eventNum]) $= "fxDTSBrick")
-					{
-						//Check Price
-						echo("Found rent for "@%so.nameOfMonth[%so.getMonth()]@" of $"@%rentBrick.eventOutputParameter[%eventNum,2]);
+					//Check Price
+					echo("Found rent for "@%so.nameOfMonth[%so.getMonth()]@" of $"@%rentBrick.eventOutputParameter[%eventNum,2]);
 
-						%budget = %npc.eventOutputParameter[5,1];
-						if((%rentPrice = %rentBrick.eventOutputParameter[%eventNum,2])>%budget)
-							%rentPrice = %budget;
-						if(%rentPrice > %money)
-							%rentPrice = %money;
+					%budget = %npc.eventOutputParameter[5,1];
+					if((%rentPrice = %rentBrick.eventOutputParameter[%eventNum,2])>%budget)
+						%rentPrice = %budget;
+					if(%rentPrice > %money)
+						%rentPrice = %money;
 
-						%money -= %rentPrice;
-						%npc.eventOutputParameter[2,1] = %money;
+					%money -= %rentPrice;
+					%npc.eventOutputParameter[2,1] = %money;
 
-						City.add(%landLordID, "bank", %rentPrice);
-						%landLordBG.rentIncome += %rentPrice;
-						%landLordBG.rentNumPayments += 1;
-					}
+					City.add(%landLordID, "bank", %rentPrice);
+					%landLordBG.rentIncome += %rentPrice;
+					%landLordBG.rentNumPayments += 1;
 				}
 			}
 		}
