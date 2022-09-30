@@ -714,7 +714,7 @@ function City_NPCTickLoop(%loop)
 						{
 							if(%npc.eventOutputParameter[5,1] + %itemPrice + %itemProfit <= %money)
 							{
-
+								npcDebug("Buying item", %npc);
 								%money -= (%itemPrice + %itemProfit);
 								%npc.eventOutputParameter[2,1] = %money;
 
@@ -730,14 +730,35 @@ function City_NPCTickLoop(%loop)
 							}
 						}
 					}
+					else
+					{
+						npcDebug("No greed, could not resolve item selling event", %npc);
+					}
+				}
+				else
+				{
+					npcDebug("No greed, could not resolve item selling event", %npc);
 				}
 			}
+			else
+			{
+				npcDebug("No greed, no item selling license", %npc);
+			}
 		}
+		else
+		{
+			npcDebug("No greed, item is a non-brick object", %npc);
+		}
+	}
+	else
+	{
+		npcDebug("No greed, missing item brick from event", %npc);
 	}
 
 	//Reroll Greed
 	if(%rerollGreed)
 	{
+		npcDebug("Rerolling greed", %npc);
 		//Pick a shop
 		%count = CityRPGEventTracker.sellItem.getCount();
 		if(%count>0)
@@ -758,6 +779,7 @@ function City_NPCTickLoop(%loop)
 						{
 							if(%productBrick.eventOutputIdx[%i] == $City::Event::sellItem && InputEvent_getTargetClass("fxDTSBrick",%productBrick.eventInputIdx[%i],%productBrick.eventTargetIdx[%i]) $= "fxDTSBrick")
 							{
+								npcDebug("Set greed for item on brick " @ %productBrick, %npc);
 								%rerollItemIdx = %productBrick.eventOutputParameter[%i,1];
 								%rerollProfit = %productBrick.eventOutputParameter[%i,2];
 								%rerollPrice = $City::Item::price[%rerollItemIdx];
@@ -766,14 +788,27 @@ function City_NPCTickLoop(%loop)
 						}
 						if((%rerollPrice + %rerollProfit) <= (%job.pay * 20))
 						{
+							npcDebug("Set greed for item on brick " @ %productBrick, %npc);
 							%npc.eventOutputParameter[4,1] = (%rerollPrice + %rerollProfit);
 							%npc.eventOutputParameter[4,2] = %rerollItemIdx+1;
 							%npc.eventOutputParameter[4,3] = %productBrick;
 							%npc.eventOutputParameter[4,4] = %i;
 						}
 					}
+					else
+					{
+						npcDebug("No greed reroll, no item sell license", %npc);
+					}
+				}
+				else
+				{
+					npcDebug("No greed reroll, no product brick data", %npc);
 				}
 			}
+		}
+		else
+		{
+			npcDebug("No greed reroll, no sellItem events found", %npc);
 		}
 	}
 
