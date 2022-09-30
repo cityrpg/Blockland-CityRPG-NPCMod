@@ -720,7 +720,7 @@ function City_NPCTickLoop(%loop)
 
 								CitySO.minerals -= $City::Item::mineral[%itemListIDx];
 
-								CitySO.add(%armsDealerID, "bank", %itemProfit);
+								City.add(%armsDealerID, "bank", %itemProfit);
 								%armsDealerBG.itemIncome += %itemProfit;
 								%armsDealerBG.itemNumSales += 1;
 							}
@@ -770,9 +770,9 @@ function City_NPCTickLoop(%loop)
 			{
 				%productBrick = %shop.getObject(getRandom(0,%productCount-1));
 				%blid = %productBrick.getGroup().bl_id;
-				if(isObject(%productBrickData))
+				if(isObject(%productBrick))
 				{
-					if(JobSO.job[City.get(%blid)].sellItems)
+					if(JobSO.job[City.get(%blid, "jobId")].sellItems)
 					{
 						//Find the product
 						for(%i=0;%i<%productBrick.numEvents;%i++)
@@ -802,7 +802,7 @@ function City_NPCTickLoop(%loop)
 				}
 				else
 				{
-					npcDebug("No greed reroll, no product brick data", %npc);
+					npcDebug("No greed reroll, no product brick", %npc);
 				}
 			}
 		}
