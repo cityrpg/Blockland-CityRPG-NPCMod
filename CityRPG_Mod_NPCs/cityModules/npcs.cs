@@ -78,8 +78,30 @@ datablock staticShapeData(SSNPCAvatarData)
 	rski[0] = "NONE";
 	rski[1] = "RSki";
 };
-addExtraResource($CityNPCs::DataPath @ "/shapes/decal.ifl");
-addExtraResource($CityNPCs::DataPath @ "/shapes/face.ifl");
+// addExtraResource($CityNPCs::DataPath @ "/shapes/decal.ifl");
+// addExtraResource($CityNPCs::DataPath @ "/shapes/face.ifl");
+//Whoops!  Looks like the file manifest doesn't accept .ifl files.
+//I guess we have to add the referenced images manually?
+function NPCLoadIflImages(%iflpath)
+{
+	if(!isFile(%iflpath))
+		return;
+
+	%fo = new FileObject();
+	%fo.openforRead(%iflpath);
+	while(!%fo.isEOF())
+	{
+		%line = %fo.readline();
+		if(isFile(%line))
+		{
+			addExtraResource(%line);
+		}
+	}
+	%fo.close();
+	%fo.delete();
+}
+NPCLoadIflImages($CityNPCs::DataPath @ "/shapes/decal.ifl");
+NPCLoadIflImages($CityNPCs::DataPath @ "/shapes/face.ifl");
 
 function serverCmdNPCatMe(%client, %val)//This is a temporary function to test avatars ingame.
 {
